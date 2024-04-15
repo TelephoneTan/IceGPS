@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tagKey_DataNode" type="id" />
+    <item name="tagInitKey_DataNode" type="id" />
+    <item name="tagKey_DataSource" type="id" />
+    <item name="tagInitKey_DataSource" type="id" />
+</resources>
