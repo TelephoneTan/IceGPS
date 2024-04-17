@@ -10,8 +10,8 @@ class MyApp : Application() {
 
     companion object {
         private val appR = AtomicReference<MyApp>()
-        val app: MyApp get() = appR.get()
-        val ui get() = app.uiHandler
+        private val app: MyApp get() = appR.get()
+        private val ui get() = app.uiHandler
         fun post(r: Runnable) = ui.post(r)
     }
 

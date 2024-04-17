@@ -10,6 +10,11 @@ enum class TagKey(
     @JvmField
     val InitKey: Int
 ) {
-    DataNode(R.id.tagKey_DataNode, R.id.tagInitKey_DataNode),
-    DataSource(R.id.tagKey_DataSource, R.id.tagInitKey_DataSource);
+    BrowserSetCurrentWebView(
+        R.id.tagKey_BrowserSetCurrentWebView,
+        R.id.tagInitKey_BrowserSetCurrentWebView
+    ),
+    BrowserSetTitle(R.id.tagKey_BrowserSetTitle, R.id.tagInitKey_BrowserSetTitle),
+    DataSource(R.id.tagKey_DataSource, R.id.tagInitKey_DataSource),
+    DataNode(R.id.tagKey_DataNode, R.id.tagInitKey_DataNode);
 }

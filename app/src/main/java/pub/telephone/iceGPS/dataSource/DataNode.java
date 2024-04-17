@@ -3,10 +3,13 @@ package pub.telephone.iceGPS.dataSource;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.viewpager2.widget.ViewPager2;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 import java.time.Duration;
@@ -180,11 +183,11 @@ public abstract class DataNode<VH extends DataViewHolder<?>> {
         return new Binding<>(key.Key, key.InitKey, (rs, re) -> rs.Resolve(task.Do()));
     }
 
-    protected <D> Binding<D> emptyBinding(TagKey key) {
+    protected <D> Binding<D> emptyBinding(@NotNull TagKey key) {
         return new Binding<>(key.Key, key.InitKey, null);
     }
 
-    protected <D> Binding<D> emptyBinding() {
+    protected Binding<Object> emptyBinding() {
         return new Binding<>(null, null, null);
     }
 
@@ -389,7 +392,7 @@ public abstract class DataNode<VH extends DataViewHolder<?>> {
     WeakReference<VH> binding = new WeakReference<>(null);
     protected int position;
 
-    public DataNode(WeakReference<LifecycleOwner> lifecycleOwner, VH holder) {
+    public DataNode(@Nullable WeakReference<LifecycleOwner> lifecycleOwner, @Nullable VH holder) {
         this.lifecycleOwner = lifecycleOwner;
         this.holder = holder;
     }
