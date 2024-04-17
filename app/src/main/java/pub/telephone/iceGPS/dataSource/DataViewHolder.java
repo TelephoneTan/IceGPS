@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.InvocationTargetException;
 
 public class DataViewHolder<B extends ViewBinding> extends RecyclerView.ViewHolder {
@@ -21,7 +23,7 @@ public class DataViewHolder<B extends ViewBinding> extends RecyclerView.ViewHold
     }
 
     public DataViewHolder(
-            Class<B> viewBindingClass,
+            @NotNull Class<B> viewBindingClass,
             @NonNull LayoutInflater inflater,
             @Nullable ViewGroup container
     ) {

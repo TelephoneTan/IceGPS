@@ -44,6 +44,8 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     coreLibraryDesugaring(libs.android.desugar)
     implementation(libs.http.request)
     implementation(libs.androidx.core.ktx)
