@@ -24,20 +24,6 @@ class MainActivity : MyActivity<MainActivity.DataNode.ViewHolder, MainActivity.D
         }
     }
 
-    override fun createViewHolder_ui(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): DataNode.ViewHolder {
-        return DataNode.ViewHolder(inflater, container)
-    }
-
-    override fun createState_ui(
-        lifecycleOwner: WeakReference<LifecycleOwner>,
-        holder: DataNode.ViewHolder
-    ): DataNode {
-        return DataNode(lifecycleOwner, holder)
-    }
-
     override val title_ui: String
         get() = "冰河导航"
 
@@ -47,4 +33,15 @@ class MainActivity : MyActivity<MainActivity.DataNode.ViewHolder, MainActivity.D
 
     override val useWhiteBarText_ui: Boolean
         get() = true
+
+    override fun createChild(inflater: LayoutInflater, container: ViewGroup?): DataNode.ViewHolder {
+        return DataNode.ViewHolder(inflater, container)
+    }
+
+    override fun createChild(
+        lifecycleOwner: WeakReference<LifecycleOwner>?,
+        holder: DataNode.ViewHolder?
+    ): DataNode {
+        return DataNode(lifecycleOwner, holder)
+    }
 }

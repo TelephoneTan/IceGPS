@@ -20,20 +20,39 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.LifecycleOwner
 import pub.telephone.iceGPS.dataSource.DataNode
 import pub.telephone.iceGPS.dataSource.DataViewHolder
+import pub.telephone.iceGPS.dataSource.EmbeddedDataNode
+import pub.telephone.iceGPS.dataSource.EmbeddedDataNodeAPI
+import pub.telephone.iceGPS.dataSource.TagKey
+import pub.telephone.iceGPS.databinding.MyActivityBinding
 import java.lang.ref.WeakReference
 
-abstract class MyActivity<VH : DataViewHolder<*>, State : DataNode<VH>> : AppCompatActivity() {
-    @Suppress("FunctionName")
-    protected abstract fun createViewHolder_ui(inflater: LayoutInflater, container: ViewGroup?): VH
+private typealias INFO = Any?
+
+abstract class MyActivity<CH : DataViewHolder<*>, CD : DataNode<CH>>
+    : AppCompatActivity(), EmbeddedDataNodeAPI.All<CH, INFO, CD> {
+    inner class ViewHolder(inflater: LayoutInflater, parent: ViewGroup?) :
+        EmbeddedDataNode.ViewHolder<MyActivityBinding, CH>(
+            inflater, parent, MyActivityBinding::class.java, this
+        ),
+        EmbeddedDataNodeAPI.ViewHolder<CH> by this {
+        override fun retrieveContainer(): ViewGroup {
+            return view.myActivityContent
+        }
+    }
+
+    inner class DataNode(
+        lifecycleOwner: WeakReference<LifecycleOwner>?,
+        holder: MyActivity<CH, CD>.ViewHolder?
+    ) : EmbeddedDataNode<CH, ViewHolder, INFO, CD>(
+        lifecycleOwner, holder, this
+    ), EmbeddedDataNodeAPI.DataNode<CH, INFO, CD> by this {
+        override fun loadKey(): TagKey {
+            return TagKey.MyActivityLoad
+        }
+    }
 
     @Suppress("FunctionName")
-    protected abstract fun createState_ui(
-        lifecycleOwner: WeakReference<LifecycleOwner>,
-        holder: VH
-    ): State
-
-    @Suppress("FunctionName")
-    protected abstract fun findToolBar_ui(holder: VH): Toolbar?
+    protected abstract fun findToolBar_ui(holder: CH): Toolbar?
 
     @Suppress("PropertyName")
     protected abstract val title_ui: String
@@ -84,14 +103,14 @@ abstract class MyActivity<VH : DataViewHolder<*>, State : DataNode<VH>> : AppCom
                 isStatusBarContrastEnforced = false
             }
         }
-        val holder = createViewHolder_ui(layoutInflater, null)
+        val holder = ViewHolder(layoutInflater, null)
         ViewCompat.setOnApplyWindowInsetsListener(holder.itemView, onApplyWindowInsetsListener)
         insetsController = WindowCompat.getInsetsController(window, holder.itemView)
         applyBackgroundColor_ui(useWhiteBarText_ui)
-        setSupportActionBar(findToolBar_ui(holder))
+        setSupportActionBar(findToolBar_ui(holder.ChildHolder))
         title = title_ui
         setContentView(holder.itemView)
-        createState_ui(WeakReference(this), holder).EmitChange_ui(null)
+        DataNode(WeakReference(this), holder).EmitChange_ui(null)
     }
 
     final override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {

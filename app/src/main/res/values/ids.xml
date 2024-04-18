@@ -8,4 +8,6 @@
     <item name="tagInitKey_BrowserSetTitle" type="id" />
     <item name="tagKey_BrowserSetCurrentWebView" type="id" />
     <item name="tagInitKey_BrowserSetCurrentWebView" type="id" />
+    <item name="tagKey_MyActivityLoad" type="id" />
+    <item name="tagInitKey_MyActivityLoad" type="id" />
 </resources>
