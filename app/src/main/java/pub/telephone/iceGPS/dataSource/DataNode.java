@@ -386,9 +386,9 @@ public abstract class DataNode<VH extends DataViewHolder<?>> {
         }
     }
 
-    protected WeakReference<LifecycleOwner> lifecycleOwner;
+    protected volatile WeakReference<LifecycleOwner> lifecycleOwner;
     DataSource<VH, DataNode<VH>> source;
-    VH holder;
+    volatile VH holder;
     WeakReference<VH> binding = new WeakReference<>(null);
     protected int position;
 
