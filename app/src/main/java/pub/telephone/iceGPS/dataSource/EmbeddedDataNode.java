@@ -25,7 +25,7 @@ public abstract class EmbeddedDataNode<
             extends DataViewHolder<CT> implements EmbeddedDataNodeAPI.ViewHolder<CH> {
         protected abstract @NotNull ViewGroup retrieveContainer();
 
-        final CH childHolder;
+        public final CH ChildHolder;
 
         public ViewHolder(
                 @NonNull LayoutInflater inflater,
@@ -35,9 +35,9 @@ public abstract class EmbeddedDataNode<
         ) {
             super(containerBindingClass, inflater, parent);
             //
-            childHolder = embeddedCreator.createChild(inflater, retrieveContainer());
+            ChildHolder = embeddedCreator.createChild(inflater, retrieveContainer());
             //
-            retrieveContainer().addView(childHolder.itemView);
+            retrieveContainer().addView(ChildHolder.itemView);
         }
     }
 
@@ -54,7 +54,7 @@ public abstract class EmbeddedDataNode<
         //
         childNode = embeddedCreator.createChild(
                 lifecycleOwner,
-                holder == null ? null : holder.childHolder
+                holder == null ? null : holder.ChildHolder
         );
         load = bindTask(
                 loadKey(),
@@ -88,12 +88,12 @@ public abstract class EmbeddedDataNode<
                 changedBindingKeys,
                 holder -> {
                     loading_ui(holder);
-                    initChild_ui(lifecycleOwner, holder.childHolder);
+                    initChild_ui(lifecycleOwner, holder.ChildHolder);
                     return null;
                 },
                 (holder, info) -> {
                     loaded_ui(holder);
-                    childLoaded_ui(lifecycleOwner, holder.childHolder, info);
+                    childLoaded_ui(lifecycleOwner, holder.ChildHolder, info);
                     loaded.set(true);
                     return null;
                 },
