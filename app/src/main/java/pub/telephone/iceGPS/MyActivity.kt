@@ -24,20 +24,23 @@ import java.lang.ref.WeakReference
 
 abstract class MyActivity<VH : DataViewHolder<*>, State : DataNode<VH>> : AppCompatActivity() {
     @Suppress("FunctionName")
-    abstract fun createViewHolder_ui(inflater: LayoutInflater, container: ViewGroup?): VH
+    protected abstract fun createViewHolder_ui(inflater: LayoutInflater, container: ViewGroup?): VH
 
     @Suppress("FunctionName")
-    abstract fun createState_ui(lifecycleOwner: WeakReference<LifecycleOwner>, holder: VH): State
+    protected abstract fun createState_ui(
+        lifecycleOwner: WeakReference<LifecycleOwner>,
+        holder: VH
+    ): State
 
     @Suppress("FunctionName")
-    abstract fun findToolBar_ui(holder: VH): Toolbar?
+    protected abstract fun findToolBar_ui(holder: VH): Toolbar?
 
     @Suppress("PropertyName")
-    abstract val title_ui: String
+    protected abstract val title_ui: String
     private var insetsController: WindowInsetsControllerCompat? = null
 
     @Suppress("FunctionName")
-    fun applyBackgroundColor_ui(useWhiteText: Boolean) {
+    protected fun applyBackgroundColor_ui(useWhiteText: Boolean) {
         insetsController?.apply {
             isAppearanceLightStatusBars = !useWhiteText
             isAppearanceLightNavigationBars = !useWhiteText
@@ -45,12 +48,12 @@ abstract class MyActivity<VH : DataViewHolder<*>, State : DataNode<VH>> : AppCom
     }
 
     @Suppress("FunctionName")
-    fun applyBackgroundColor_ui(@ColorInt color: Int) {
+    protected fun applyBackgroundColor_ui(@ColorInt color: Int) {
         applyBackgroundColor_ui(isLightColor(color).not())
     }
 
     @Suppress("PropertyName")
-    open val useWhiteBarText_ui = false
+    protected open val useWhiteBarText_ui = false
 
     companion object {
         private val onApplyWindowInsetsListener = OnApplyWindowInsetsListener { v, insets ->
