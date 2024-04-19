@@ -2,7 +2,6 @@ package pub.telephone.iceGPS.dataSource
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import java.util.concurrent.atomic.AtomicReference
 
 private typealias ColorValue = Int
 private typealias ColorSet = Colors<ColorValue>
@@ -71,6 +70,31 @@ private enum class Mode {
 }
 
 object ColorManager {
-    private val ref by lazy { AtomicReference(Mode.fallback.calc()) }
-    val current: ColorSet get() = ref.get()
+    @Volatile
+    private var night: Boolean? = null
+
+    @Volatile
+    var current = Mode.fallback.calc()
+
+    fun commit(night: Boolean) {
+        if (night == this.night) {
+            return
+        }
+        when (night) {
+            true -> Mode.NIGHT
+            false -> Mode.DEFAULT
+        }.calc().also {
+            synchronized(this) {
+                if (night == this.night) {
+                    return
+                }
+                this.night = night
+                current = it
+                DataNodeManager.DataNodeColor.CallOnAll { node ->
+                    node.EmitChange_ui(mutableSetOf(node.Color.SetResult(it)))
+                    null
+                }
+            }
+        }
+    }
 }

@@ -494,7 +494,7 @@ public abstract class DataNode<VH extends DataViewHolder<?>> {
         wrapBind(changedBindingKeys);
     }
 
-    protected final Binding<Colors<Integer>> color = emptyBinding(TagKey.DataNodeColor);
+    public final Binding<Colors<Integer>> Color = emptyBinding(TagKey.DataNodeColor);
 
     protected final void watchColor() {
         DataNodeManager.DataNodeColor.Register(this);
@@ -504,7 +504,7 @@ public abstract class DataNode<VH extends DataViewHolder<?>> {
     }
 
     final void wrapBind(Set<Integer> changedBindingKeys) {
-        color.Bind(changedBindingKeys, holder -> {
+        Color.Bind(changedBindingKeys, holder -> {
             color_ui(holder, ColorManager.INSTANCE.getCurrent());
             return null;
         }, (holder, colors) -> {
