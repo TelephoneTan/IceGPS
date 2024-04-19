@@ -176,9 +176,9 @@ class BrowserState(
     @Suppress("FunctionName")
     fun onBackPressed_ui(
         @Suppress("LocalVariableName")
-        super_onBackPressed_ui: () -> Unit
-    ) {
-        (this.currentWebView?.takeIf { it.canGoBack() }?.run {
+        super_onBackPressed_ui: (() -> Unit)? = null
+    ): Boolean {
+        return ((this.currentWebView?.takeIf { it.canGoBack() }?.run {
             goBack()
             true
         } ?: this.historyWebViews.removeLastOrNull()?.let {
@@ -191,11 +191,11 @@ class BrowserState(
                 )
             )
             true
-        }) ?: let {
+        }) ?: super_onBackPressed_ui?.let {
             this@BrowserState.currentWebView?.destroy()
-            super_onBackPressed_ui()
+            it()
             true
-        }
+        }) ?: false
     }
 
     override fun __Bind__(changedBindingKeys: MutableSet<Int>?) {

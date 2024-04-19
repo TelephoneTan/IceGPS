@@ -2,6 +2,7 @@ package pub.telephone.iceGPS
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LifecycleOwner
 import pub.telephone.iceGPS.browser.BrowserState
@@ -11,10 +12,13 @@ import pub.telephone.iceGPS.dataSource.EmbeddedDataNodeAPI
 import pub.telephone.iceGPS.dataSource.TagKey
 import pub.telephone.iceGPS.databinding.ActivityMainBinding
 import java.lang.ref.WeakReference
+import java.util.concurrent.atomic.AtomicReference
 
 private typealias MainActivityINFO = Any?
 
 class MainActivity : MyActivity<MainActivity.ViewHolder, MainActivity.DataNode>() {
+    private val currentBrowserR = AtomicReference<BrowserState>()
+    private val currentBrowser: BrowserState? get() = currentBrowserR.get()
     private val browserCreator =
         object :
             EmbeddedDataNodeAPI.DataNodeCreator<BrowserState.ViewHolder, MainActivityINFO, BrowserState> {
@@ -28,7 +32,7 @@ class MainActivity : MyActivity<MainActivity.ViewHolder, MainActivity.DataNode>(
                     "https://appassets.androidplatform.net/assets/圣诞树.html"
                 ) {
                     title = it
-                }
+                }.also { currentBrowserR.set(it) }
             }
         }
 
@@ -94,5 +98,17 @@ class MainActivity : MyActivity<MainActivity.ViewHolder, MainActivity.DataNode>(
         holder: ViewHolder?
     ): DataNode {
         return DataNode(lifecycleOwner, holder)
+    }
+
+    override fun handleAndroidHome() {
+        super_onBackPressed()
+    }
+
+    override fun onBackPressed_ui() {
+        currentBrowser?.onBackPressed_ui(::super_onBackPressed)?.also { consumed ->
+            if (!consumed) {
+                Toast.makeText(this, "已经是第一页", Toast.LENGTH_LONG).show()
+            }
+        } ?: super_onBackPressed()
     }
 }

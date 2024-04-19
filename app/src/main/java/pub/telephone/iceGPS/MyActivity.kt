@@ -6,7 +6,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
@@ -97,8 +99,50 @@ abstract class MyActivity<CH : DataViewHolder<*>, CD : DataNode<CH>>
         }
     }
 
+    protected open fun handleAndroidHome() {
+        handleOnBackPressed()
+    }
+
+    protected open fun handleOptionsItemSelected(itemID: Int) {}
+
+    final override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (val id = item.itemId) {
+            android.R.id.home -> handleAndroidHome()
+            else -> handleOptionsItemSelected(id)
+        }
+        return true
+    }
+
+    @Suppress("OVERRIDE_DEPRECATION")
+    final override fun onBackPressed() {
+        @Suppress("DEPRECATION")
+        super.onBackPressed()
+    }
+
+    @Suppress("FunctionName")
+    protected fun super_onBackPressed() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedDispatcher.onBackPressed()
+    }
+
+    @Suppress("FunctionName")
+    protected open fun onBackPressed_ui() {
+        super_onBackPressed()
+    }
+
+    private fun handleOnBackPressed() {
+        onBackPressed_ui()
+    }
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            this@MyActivity.handleOnBackPressed()
+        }
+    }
+
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
         enableEdgeToEdge()
         window.apply {
             navigationBarColor = Color.TRANSPARENT
