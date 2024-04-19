@@ -494,6 +494,7 @@ public abstract class DataNode<VH extends DataViewHolder<?>> {
         wrapBind(changedBindingKeys);
     }
 
+    protected final Binding<Object> init = emptyBinding();
     public final Binding<Colors<Integer>> Color = emptyBinding(TagKey.DataNodeColor);
 
     protected final void watchColor() {
