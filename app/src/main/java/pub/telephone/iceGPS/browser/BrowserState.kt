@@ -1,5 +1,6 @@
 package pub.telephone.iceGPS.browser
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Message
@@ -21,8 +22,10 @@ import java.lang.ref.WeakReference
 class BrowserState(
     lifecycleOwner: WeakReference<LifecycleOwner>?,
     holder: ViewHolder?,
+    private val initURL: String,
+    private val initReferer: String? = null,
     @Suppress("PrivatePropertyName")
-    private val setTitle_ui: (title: String) -> Unit,
+    private val setTitle_ui: ((title: String) -> Unit)? = null,
 ) : DataNode<BrowserState.ViewHolder>(lifecycleOwner, holder) {
     class ViewHolder(inflater: LayoutInflater, container: ViewGroup?) :
         DataViewHolder<BrowserBinding>(BrowserBinding::class.java, inflater, container)
@@ -81,12 +84,15 @@ class BrowserState(
             }
             setLayerType(View.LAYER_TYPE_HARDWARE, null)
             settings.apply {
+                @SuppressLint("SetJavaScriptEnabled")
                 javaScriptEnabled = true
                 javaScriptCanOpenWindowsAutomatically = true
                 setSupportMultipleWindows(true)
                 allowFileAccess = false
                 allowContentAccess = false
+                @Suppress("DEPRECATION")
                 allowFileAccessFromFileURLs = false
+                @Suppress("DEPRECATION")
                 allowUniversalAccessFromFileURLs = false
                 useWideViewPort = true
                 loadWithOverviewMode = true
@@ -173,8 +179,25 @@ class BrowserState(
     }
 
     override fun __Bind__(changedBindingKeys: MutableSet<Int>?) {
-        setTitle.Bind(changedBindingKeys) { holder, value ->
-            setTitle_ui.takeIf { value.webView == this.currentWebView }?.invoke(value.title)
+        init.Bind(changedBindingKeys) { holder ->
+            holder.itemView.post {
+                EmitChange_ui(
+                    mutableSetOf(
+                        setCurrentWebView.SetResult(
+                            SetWebViewPack(
+                                saveHistory = false,
+                                restoreTitle = false,
+                                url = initURL,
+                                referer = initReferer,
+                            )
+                        )
+                    )
+                )
+            }
+            null
+        }
+        setTitle.Bind(changedBindingKeys) { _, value ->
+            setTitle_ui?.takeIf { value.webView == this.currentWebView }?.invoke(value.title)
             null
         }
         setCurrentWebView.Bind(changedBindingKeys) { holder, value ->
@@ -198,7 +221,7 @@ class BrowserState(
             value.initWebView_ui?.invoke(webView)
             //
             webView.takeIf { value.restoreTitle }?.title?.let {
-                setTitle_ui(it)
+                setTitle_ui?.invoke(it)
             }
             null
         }
