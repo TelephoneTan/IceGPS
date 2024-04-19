@@ -45,12 +45,10 @@ private enum class Mode {
 
     object Palette {
         val black = C(
-            DEFAULT to CV(Color(0xff0a0101)),
-            NIGHT to CV(Color(0xffff78fd)),
+            DEFAULT to CV(Color(0xff000000)),
         )
-        val red = C(
-            DEFAULT to CV(Color(0xffffe478)),
-            NIGHT to CV(Color(0xff47c55f)),
+        val white = C(
+            DEFAULT to CV(Color(0xffffffff)),
         )
     }
 
@@ -58,10 +56,16 @@ private enum class Mode {
         val fallback = DEFAULT
         val template = Colors(
             myActivity = ColorsMyActivity(
-                background = Palette.black
+                background = C(
+                    DEFAULT to Palette.white,
+                    NIGHT to CV(Color(0xff1e1e1e)),
+                )
             ),
             main = ColorsMain(
-                text = Palette.red
+                text = C(
+                    DEFAULT to Palette.black,
+                    NIGHT to Palette.white,
+                )
             ),
         )
     }

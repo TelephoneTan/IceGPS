@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LifecycleOwner
 import pub.telephone.iceGPS.browser.BrowserState
+import pub.telephone.iceGPS.dataSource.Colors
 import pub.telephone.iceGPS.dataSource.EmbeddedDataNode
 import pub.telephone.iceGPS.dataSource.EmbeddedDataNodeAPI
 import pub.telephone.iceGPS.dataSource.TagKey
@@ -37,6 +38,10 @@ class MainActivity : MyActivity<MainActivity.ViewHolder, MainActivity.DataNode>(
         EmbeddedDataNodeAPI.DataNodeCreator<BrowserState.ViewHolder, MainActivityINFO, BrowserState> by browserCreator {
         override fun loadKey(): TagKey {
             return TagKey.MainActivityLoad
+        }
+
+        override fun color_ui(holder: MainActivity.ViewHolder, colors: Colors<Int>) {
+            holder.view.toolBar.setTitleTextColor(colors.main.text)
         }
     }
 
