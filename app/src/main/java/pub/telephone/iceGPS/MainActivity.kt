@@ -22,7 +22,11 @@ class MainActivity : MyActivity<MainActivity.ViewHolder, MainActivity.DataNode>(
                 lifecycleOwner: WeakReference<LifecycleOwner>?,
                 holder: BrowserState.ViewHolder?
             ): BrowserState {
-                return BrowserState(lifecycleOwner, holder, "https://bing.com") {
+                return BrowserState(
+                    lifecycleOwner,
+                    holder,
+                    "https://appassets.androidplatform.net/assets/圣诞树.html"
+                ) {
                     title = it
                 }
             }

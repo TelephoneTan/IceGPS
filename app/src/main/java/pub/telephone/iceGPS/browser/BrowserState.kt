@@ -9,9 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
+import android.webkit.WebSettings
 import android.webkit.WebViewClient
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleOwner
+import androidx.webkit.WebViewAssetLoader
+import androidx.webkit.WebViewAssetLoader.AssetsPathHandler
 import pub.telephone.iceGPS.MyApp
 import pub.telephone.iceGPS.dataSource.DataNode
 import pub.telephone.iceGPS.dataSource.DataViewHolder
@@ -29,6 +33,14 @@ class BrowserState(
 ) : DataNode<BrowserState.ViewHolder>(lifecycleOwner, holder) {
     class ViewHolder(inflater: LayoutInflater, container: ViewGroup?) :
         DataViewHolder<BrowserBinding>(BrowserBinding::class.java, inflater, container)
+
+    companion object {
+        private val assetLoader by lazy {
+            WebViewAssetLoader.Builder()
+                .addPathHandler("/assets/", AssetsPathHandler(MyApp.context))
+                .build()
+        }
+    }
 
     inner class WebView(
         context: Context,
@@ -61,6 +73,13 @@ class BrowserState(
 
                 override fun onPageFinished(view: android.webkit.WebView?, url: String?) {
                     setTitle(this@WebView, view?.title ?: "")
+                }
+
+                override fun shouldInterceptRequest(
+                    view: android.webkit.WebView?,
+                    request: WebResourceRequest?
+                ): WebResourceResponse? {
+                    return assetLoader.shouldInterceptRequest(request!!.url)
                 }
             }
             webChromeClient = object : WebChromeClient() {
@@ -100,6 +119,7 @@ class BrowserState(
                 builtInZoomControls = true
                 displayZoomControls = false
                 domStorageEnabled = true
+                mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
             }
         }
 

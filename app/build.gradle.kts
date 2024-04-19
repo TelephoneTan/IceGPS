@@ -52,6 +52,7 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.webkit)
     coreLibraryDesugaring(libs.android.desugar)
     implementation(libs.http.request)
     implementation(libs.androidx.core.ktx)
