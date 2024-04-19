@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class EmbeddedDataNode<
         CH extends DataViewHolder<?>,
@@ -64,7 +63,6 @@ public abstract class EmbeddedDataNode<
 
     final Binding<Object> init = emptyBinding();
     final Binding<INFO> load;
-    final AtomicBoolean loaded = new AtomicBoolean(false);
 
     protected void init_ui(@NotNull VH holder) {
     }
@@ -94,13 +92,10 @@ public abstract class EmbeddedDataNode<
                 (holder, info) -> {
                     loaded_ui(holder);
                     childLoaded_ui(lifecycleOwner, holder.ChildHolder, info);
-                    loaded.set(true);
+                    childNode.EmitChange_ui(null);
                     return null;
                 },
                 null
         );
-        if (loaded.get()) {
-            childNode.EmitChange_ui(null);
-        }
     }
 }
