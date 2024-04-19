@@ -55,7 +55,10 @@ abstract class MyActivity<CH : DataViewHolder<*>, CD : DataNode<CH>>
         }
 
         override fun color_ui(holder: MyActivity<CH, CD>.ViewHolder, colors: Colors<Int>) {
-            holder.view.myActivityContent.setBackgroundColor(colors.myActivity.background)
+            colors.myActivity.background.also {
+                holder.view.myActivityContent.setBackgroundColor(it)
+                applyBackgroundColor_ui(it)
+            }
         }
     }
 
