@@ -402,7 +402,7 @@ public abstract class DataNode<VH extends DataViewHolder<?>> {
         if (lifecycleOwner == null) {
             return false;
         }
-        if (!lifecycleOwner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+        if (!lifecycleOwner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) {
             return false;
         }
         VH currentBinding = binding.get();
