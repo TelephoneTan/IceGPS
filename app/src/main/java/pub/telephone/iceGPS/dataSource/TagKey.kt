@@ -10,6 +10,7 @@ enum class TagKey(
     @JvmField
     val InitKey: Int
 ) {
+    MainActivityLoad(R.id.tagKey_MainActivityLoad, R.id.tagInitKey_MainActivityLoad),
     DataNodeColor(R.id.tagKey_DataNodeColor, R.id.tagInitKey_DataNodeColor),
     MyActivityLoad(R.id.tagKey_MyActivityLoad, R.id.tagInitKey_MyActivityLoad),
     BrowserSetCurrentWebView(

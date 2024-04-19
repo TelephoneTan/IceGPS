@@ -4,43 +4,81 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LifecycleOwner
-import pub.telephone.iceGPS.dataSource.DataViewHolder
+import pub.telephone.iceGPS.browser.BrowserState
+import pub.telephone.iceGPS.dataSource.EmbeddedDataNode
+import pub.telephone.iceGPS.dataSource.EmbeddedDataNodeAPI
+import pub.telephone.iceGPS.dataSource.TagKey
 import pub.telephone.iceGPS.databinding.ActivityMainBinding
 import java.lang.ref.WeakReference
 
-class MainActivity : MyActivity<MainActivity.DataNode.ViewHolder, MainActivity.DataNode>() {
-    class DataNode(lifecycleOwner: WeakReference<LifecycleOwner>?, holder: ViewHolder?) :
-        pub.telephone.iceGPS.dataSource.DataNode<DataNode.ViewHolder>(
-            lifecycleOwner, holder
-        ) {
-        class ViewHolder(inflater: LayoutInflater, container: ViewGroup?) :
-            DataViewHolder<ActivityMainBinding>(
-                ActivityMainBinding::class.java,
-                inflater,
-                container
-            )
+private typealias MainActivityINFO = Any?
 
-        override fun __Bind__(changedBindingKeys: MutableSet<Int>?) {
+class MainActivity : MyActivity<MainActivity.ViewHolder, MainActivity.DataNode>() {
+    private val browserCreator =
+        object :
+            EmbeddedDataNodeAPI.DataNodeCreator<BrowserState.ViewHolder, MainActivityINFO, BrowserState> {
+            override fun createChild(
+                lifecycleOwner: WeakReference<LifecycleOwner>?,
+                holder: BrowserState.ViewHolder?
+            ): BrowserState {
+                return BrowserState(lifecycleOwner, holder, "https://bing.com") {
+                    title = it
+                }
+            }
+        }
+
+    inner class DataNode(
+        lifecycleOwner: WeakReference<LifecycleOwner>?,
+        holder: MainActivity.ViewHolder?
+    ) :
+        EmbeddedDataNode<BrowserState.ViewHolder, ViewHolder, MainActivityINFO, BrowserState>(
+            lifecycleOwner, holder, browserCreator
+        ),
+        EmbeddedDataNodeAPI.DataNodeCreator<BrowserState.ViewHolder, MainActivityINFO, BrowserState> by browserCreator {
+        override fun loadKey(): TagKey {
+            return TagKey.MainActivityLoad
+        }
+    }
+
+    class ViewHolder(inflater: LayoutInflater, container: ViewGroup?) :
+        EmbeddedDataNode.ViewHolder<ActivityMainBinding, BrowserState.ViewHolder>(
+            inflater,
+            container,
+            ActivityMainBinding::class.java,
+            Creator
+        ), EmbeddedDataNodeAPI.ViewHolderCreator<BrowserState.ViewHolder> by Creator {
+        override fun retrieveContainer(): ViewGroup {
+            return view.mainContent
+        }
+
+        private object Creator :
+            EmbeddedDataNodeAPI.ViewHolderCreator<BrowserState.ViewHolder> {
+            override fun createChild(
+                inflater: LayoutInflater,
+                container: ViewGroup?
+            ): BrowserState.ViewHolder {
+                return BrowserState.ViewHolder(inflater, container)
+            }
         }
     }
 
     override val title_ui: String
         get() = "冰河导航"
 
-    override fun findToolBar_ui(holder: DataNode.ViewHolder): Toolbar {
+    override fun findToolBar_ui(holder: ViewHolder): Toolbar {
         return holder.view.toolBar
     }
 
     override val useWhiteBarText_ui: Boolean
         get() = true
 
-    override fun createChild(inflater: LayoutInflater, container: ViewGroup?): DataNode.ViewHolder {
-        return DataNode.ViewHolder(inflater, container)
+    override fun createChild(inflater: LayoutInflater, container: ViewGroup?): ViewHolder {
+        return ViewHolder(inflater, container)
     }
 
     override fun createChild(
         lifecycleOwner: WeakReference<LifecycleOwner>?,
-        holder: DataNode.ViewHolder?
+        holder: ViewHolder?
     ): DataNode {
         return DataNode(lifecycleOwner, holder)
     }

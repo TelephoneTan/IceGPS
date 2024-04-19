@@ -27,10 +27,10 @@ import pub.telephone.iceGPS.dataSource.TagKey
 import pub.telephone.iceGPS.databinding.MyActivityBinding
 import java.lang.ref.WeakReference
 
-private typealias INFO = Any?
+private typealias MyActivityINFO = Any?
 
 abstract class MyActivity<CH : DataViewHolder<*>, CD : DataNode<CH>>
-    : AppCompatActivity(), EmbeddedDataNodeAPI.All<CH, INFO, CD> {
+    : AppCompatActivity(), EmbeddedDataNodeAPI.All<CH, MyActivityINFO, CD> {
     inner class ViewHolder(inflater: LayoutInflater, parent: ViewGroup?) :
         EmbeddedDataNode.ViewHolder<MyActivityBinding, CH>(
             inflater, parent, MyActivityBinding::class.java, this
@@ -44,9 +44,9 @@ abstract class MyActivity<CH : DataViewHolder<*>, CD : DataNode<CH>>
     inner class DataNode(
         lifecycleOwner: WeakReference<LifecycleOwner>?,
         holder: MyActivity<CH, CD>.ViewHolder?
-    ) : EmbeddedDataNode<CH, ViewHolder, INFO, CD>(
+    ) : EmbeddedDataNode<CH, ViewHolder, MyActivityINFO, CD>(
         lifecycleOwner, holder, this
-    ), EmbeddedDataNodeAPI.DataNode<CH, INFO, CD> by this {
+    ), EmbeddedDataNodeAPI.DataNode<CH, MyActivityINFO, CD> by this {
         init {
             watchColor()
         }
