@@ -40,6 +40,10 @@ class MainActivity : MyActivity<MainActivity.ViewHolder, MainActivity.DataNode>(
             return TagKey.MainActivityLoad
         }
 
+        init {
+            watchColor()
+        }
+
         override fun color_ui(holder: MainActivity.ViewHolder, colors: Colors<Int>) {
             holder.view.toolBar.setTitleTextColor(colors.main.text)
         }
