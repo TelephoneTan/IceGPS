@@ -10,4 +10,6 @@
     <item name="tagInitKey_BrowserSetCurrentWebView" type="id" />
     <item name="tagKey_MyActivityLoad" type="id" />
     <item name="tagInitKey_MyActivityLoad" type="id" />
+    <item name="tagKey_DataNodeColor" type="id" />
+    <item name="tagInitKey_DataNodeColor" type="id" />
 </resources>

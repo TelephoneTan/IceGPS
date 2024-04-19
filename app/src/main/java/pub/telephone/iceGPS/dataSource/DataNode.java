@@ -456,7 +456,7 @@ public abstract class DataNode<VH extends DataViewHolder<?>> {
                             new AbstractMap.SimpleEntry<>(DataNode.this, keys)
                     );
                 }
-                __Bind__(keys);
+                wrapBind(keys);
                 return null;
             });
         } else if (holder != null) {
@@ -491,6 +491,26 @@ public abstract class DataNode<VH extends DataViewHolder<?>> {
         }
         holder.itemView.setTag(TagKey.DataNode.Key, DataNode.this);
         binding = new WeakReference<>(holder);
+        wrapBind(changedBindingKeys);
+    }
+
+    protected final Binding<Colors<Integer>> color = emptyBinding(TagKey.DataNodeColor);
+
+    protected final void watchColor() {
+        DataNodeManager.DataNodeColor.Register(this);
+    }
+
+    protected void color_ui(@NotNull VH holder, @NotNull Colors<Integer> colors) {
+    }
+
+    final void wrapBind(Set<Integer> changedBindingKeys) {
+        color.Bind(changedBindingKeys, holder -> {
+            color_ui(holder, ColorManager.INSTANCE.getCurrent());
+            return null;
+        }, (holder, colors) -> {
+            color_ui(holder, colors);
+            return null;
+        });
         __Bind__(changedBindingKeys);
     }
 

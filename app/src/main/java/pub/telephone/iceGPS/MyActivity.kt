@@ -18,6 +18,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.LifecycleOwner
+import pub.telephone.iceGPS.dataSource.Colors
 import pub.telephone.iceGPS.dataSource.DataNode
 import pub.telephone.iceGPS.dataSource.DataViewHolder
 import pub.telephone.iceGPS.dataSource.EmbeddedDataNode
@@ -46,8 +47,15 @@ abstract class MyActivity<CH : DataViewHolder<*>, CD : DataNode<CH>>
     ) : EmbeddedDataNode<CH, ViewHolder, INFO, CD>(
         lifecycleOwner, holder, this
     ), EmbeddedDataNodeAPI.DataNode<CH, INFO, CD> by this {
+        init {
+            watchColor()
+        }
         override fun loadKey(): TagKey {
             return TagKey.MyActivityLoad
+        }
+
+        override fun color_ui(holder: MyActivity<CH, CD>.ViewHolder, colors: Colors<Int>) {
+            holder.view.myActivityContent.setBackgroundColor(colors.myActivity.background)
         }
     }
 

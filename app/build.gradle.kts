@@ -44,6 +44,8 @@ android {
 
 dependencies {
 
+    implementation(libs.compose.ui)
+    implementation(kotlin("reflect"))
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     coreLibraryDesugaring(libs.android.desugar)

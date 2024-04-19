@@ -1,7 +1,7 @@
 [versions]
 agp = "8.3.2"
 kotlin = "1.9.23"
-coreKtx = "1.12.0"
+coreKtx = "1.13.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
@@ -11,6 +11,7 @@ httpRequest = "9.2.0"
 androidDesugar = "2.0.4"
 activity = "1.8.2"
 constraintlayout = "2.1.4"
+composeUI = "1.6.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -23,6 +24,7 @@ http-request = { group = "pub.telephone", name = "java-http-request", version.re
 android-desugar = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugar" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "composeUI" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
