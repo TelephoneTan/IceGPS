@@ -1,7 +1,5 @@
 import java.util.Properties
 
-include(":appKit")
-
 
 pluginManagement {
     repositories {
