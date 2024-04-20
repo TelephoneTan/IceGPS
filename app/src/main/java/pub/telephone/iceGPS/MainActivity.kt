@@ -3,7 +3,6 @@ package pub.telephone.iceGPS
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LifecycleOwner
 import pub.telephone.iceGPS.browser.BrowserState
 import pub.telephone.iceGPS.dataSource.Colors
@@ -53,7 +52,7 @@ class MainActivity : MyActivity<MainActivity.ViewHolder, MainActivity.DataNode>(
         }
 
         override fun color_ui(holder: MainActivity.ViewHolder, colors: Colors<Int>) {
-            holder.view.toolBar.setTitleTextColor(colors.main.text)
+            holder.view.input.setTextColor(colors.main.text)
         }
     }
 
@@ -81,10 +80,6 @@ class MainActivity : MyActivity<MainActivity.ViewHolder, MainActivity.DataNode>(
 
     override val title_ui: String
         get() = "冰河导航"
-
-    override fun findToolBar_ui(holder: ViewHolder): Toolbar {
-        return holder.view.toolBar
-    }
 
     override val useWhiteBarText_ui: Boolean
         get() = true

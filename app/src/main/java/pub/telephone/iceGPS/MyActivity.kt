@@ -7,12 +7,12 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
@@ -57,15 +57,24 @@ abstract class MyActivity<CH : DataViewHolder<*>, CD : DataNode<CH>>
         }
 
         override fun color_ui(holder: MyActivity<CH, CD>.ViewHolder, colors: Colors<Int>) {
-            colors.myActivity.background.also {
-                holder.view.myActivityContent.setBackgroundColor(it)
+            backgroundColor(colors).also {
+                holder.view.myActivityBackground.setBackgroundColor(it)
                 applyBackgroundColor_ui(it)
+            }
+            titleColor(colors).also {
+                holder.view.toolBar.apply {
+                    setTitleTextColor(it)
+                    setNavigationIconTint(it)
+                }
             }
         }
     }
 
-    @Suppress("FunctionName")
-    protected abstract fun findToolBar_ui(holder: CH): Toolbar?
+    protected open fun noTitle() = false
+    protected open fun noHome() = false
+
+    protected open fun backgroundColor(colors: Colors<Int>) = colors.myActivity.background
+    protected open fun titleColor(colors: Colors<Int>) = colors.myActivity.text
 
     @Suppress("PropertyName")
     protected abstract val title_ui: String
@@ -162,7 +171,12 @@ abstract class MyActivity<CH : DataViewHolder<*>, CD : DataNode<CH>>
         ViewCompat.setOnApplyWindowInsetsListener(holder.itemView, onApplyWindowInsetsListener)
         insetsController = WindowCompat.getInsetsController(window, holder.itemView)
         applyBackgroundColor_ui(useWhiteBarText_ui)
-        setSupportActionBar(findToolBar_ui(holder.ChildHolder))
+        holder.view.toolBar.takeUnless { noTitle() }?.let {
+            it.takeIf { noHome() }?.navigationIcon = null
+            setSupportActionBar(it)
+        } ?: let {
+            holder.view.toolBar.visibility = View.GONE
+        }
         title = title_ui
         setContentView(holder.itemView)
         DataNode(WeakReference(this), holder).EmitChange_ui(null)

@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 
 private typealias ColorValue = Int
-private typealias ColorSet = Colors<ColorValue>
+typealias ColorSet = Colors<ColorValue>
 
 private interface Value
 
@@ -16,6 +16,7 @@ private class C(vararg pairs: Pair<Mode, Value>) :
 
 data class ColorsMyActivity<T>(
     @JvmField var background: T,
+    @JvmField var text: T,
 ) : Config<ColorsMyActivity<T>> {
     override fun copy(): ColorsMyActivity<T> {
         return copy(background = background)
@@ -52,6 +53,13 @@ private enum class Mode {
         )
     }
 
+    object Common {
+        val text = C(
+            DEFAULT to Palette.black,
+            NIGHT to Palette.white,
+        )
+    }
+
     companion object {
         val fallback = DEFAULT
         val template = Colors(
@@ -59,13 +67,11 @@ private enum class Mode {
                 background = C(
                     DEFAULT to Palette.white,
                     NIGHT to CV(Color(0xff1e1e1e)),
-                )
+                ),
+                text = Common.text
             ),
             main = ColorsMain(
-                text = C(
-                    DEFAULT to Palette.black,
-                    NIGHT to Palette.white,
-                )
+                text = Common.text
             ),
         )
     }
