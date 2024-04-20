@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
-import pub.telephone.iceGPS.browser.BrowserState
+import pub.telephone.appKit.browser.BrowserState
+import pub.telephone.appKit.dataSource.ColorConfig
+import pub.telephone.appKit.dataSource.EmbeddedDataNode
+import pub.telephone.appKit.dataSource.EmbeddedDataNodeAPI
+import pub.telephone.appKit.dataSource.TagKey
 import pub.telephone.iceGPS.config.colorManager
-import pub.telephone.iceGPS.dataSource.ColorConfig
-import pub.telephone.iceGPS.dataSource.EmbeddedDataNode
-import pub.telephone.iceGPS.dataSource.EmbeddedDataNodeAPI
-import pub.telephone.iceGPS.dataSource.TagKey
 import pub.telephone.iceGPS.databinding.ActivityMainBinding
 import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicReference
@@ -45,7 +45,7 @@ class MainActivity : Activity<MainActivity.ViewHolder, MainActivity.DataNode>() 
         ),
         EmbeddedDataNodeAPI.DataNodeCreator<BrowserState.ViewHolder, MainActivityINFO, BrowserState> by browserCreator {
         override fun loadKey(): TagKey {
-            return TagKey.MainActivityLoad
+            return TagKey(R.id.tagKey_MainActivityLoad, R.id.tagInitKey_MainActivityLoad)
         }
 
         init {

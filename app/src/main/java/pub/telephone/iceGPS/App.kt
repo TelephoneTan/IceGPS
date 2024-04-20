@@ -1,6 +1,7 @@
 package pub.telephone.iceGPS
 
-import pub.telephone.iceGPS.dataSource.ColorManager
+import pub.telephone.appKit.MyApp
+import pub.telephone.appKit.dataSource.ColorManager
 
 class App : MyApp() {
     override val colorManager_ui: ColorManager<*, *>

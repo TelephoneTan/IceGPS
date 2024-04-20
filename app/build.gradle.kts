@@ -36,10 +36,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs += listOf(
-            "-Xjvm-default",
-            "all-compatibility",
-        )
     }
     buildFeatures {
         viewBinding = true
@@ -48,6 +44,7 @@ android {
 
 dependencies {
 
+    implementation(libs.app.kit)
     implementation(libs.compose.ui)
     implementation(kotlin("reflect"))
     implementation(libs.androidx.activity)

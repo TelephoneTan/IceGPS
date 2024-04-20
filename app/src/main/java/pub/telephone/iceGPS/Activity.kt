@@ -1,9 +1,10 @@
 package pub.telephone.iceGPS
 
+import pub.telephone.appKit.MyActivity
+import pub.telephone.appKit.dataSource.ColorConfig
+import pub.telephone.appKit.dataSource.DataNode
+import pub.telephone.appKit.dataSource.DataViewHolder
 import pub.telephone.iceGPS.config.colorManager
-import pub.telephone.iceGPS.dataSource.ColorConfig
-import pub.telephone.iceGPS.dataSource.DataNode
-import pub.telephone.iceGPS.dataSource.DataViewHolder
 
 abstract class Activity<CH : DataViewHolder<*>, CD : DataNode<CH>> : MyActivity<CH, CD>() {
     override fun backgroundColor(colors: ColorConfig<*>): Int {

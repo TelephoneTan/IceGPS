@@ -1,11 +1,11 @@
 package pub.telephone.iceGPS.config
 
 import androidx.compose.ui.graphics.Color
-import pub.telephone.iceGPS.dataSource.C
-import pub.telephone.iceGPS.dataSource.CV
-import pub.telephone.iceGPS.dataSource.ColorConfig
-import pub.telephone.iceGPS.dataSource.ColorManager
-import pub.telephone.iceGPS.dataSource.Mode
+import pub.telephone.appKit.dataSource.C
+import pub.telephone.appKit.dataSource.CV
+import pub.telephone.appKit.dataSource.ColorConfig
+import pub.telephone.appKit.dataSource.ColorManager
+import pub.telephone.appKit.dataSource.Mode
 
 data class ColorsActivity<T>(
     @JvmField var background: T,
