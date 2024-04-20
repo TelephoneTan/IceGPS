@@ -14,7 +14,7 @@ constraintlayout = "2.1.4"
 composeUI = "1.6.6"
 webkit = "1.10.0"
 uiGraphicsAndroid = "1.6.6"
-appKit = "0.3.0"
+appKit = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
