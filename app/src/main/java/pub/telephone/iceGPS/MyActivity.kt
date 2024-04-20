@@ -20,7 +20,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.LifecycleOwner
-import pub.telephone.iceGPS.dataSource.Colors
+import pub.telephone.iceGPS.dataSource.ColorConfig
 import pub.telephone.iceGPS.dataSource.DataNode
 import pub.telephone.iceGPS.dataSource.DataViewHolder
 import pub.telephone.iceGPS.dataSource.EmbeddedDataNode
@@ -56,7 +56,7 @@ abstract class MyActivity<CH : DataViewHolder<*>, CD : DataNode<CH>>
             return TagKey.MyActivityLoad
         }
 
-        override fun color_ui(holder: MyActivity<CH, CD>.ViewHolder, colors: Colors<Int>) {
+        override fun color_ui(holder: MyActivity<CH, CD>.ViewHolder, colors: ColorConfig<*>) {
             backgroundColor(colors).also {
                 holder.view.myActivityBackground.setBackgroundColor(it)
                 applyBackgroundColor_ui(it)
@@ -73,8 +73,8 @@ abstract class MyActivity<CH : DataViewHolder<*>, CD : DataNode<CH>>
     protected open fun noTitle() = false
     protected open fun noHome() = false
 
-    protected open fun backgroundColor(colors: Colors<Int>) = colors.myActivity.background
-    protected open fun titleColor(colors: Colors<Int>) = colors.myActivity.text
+    protected abstract fun backgroundColor(colors: ColorConfig<*>): Int
+    protected abstract fun titleColor(colors: ColorConfig<*>): Int
 
     @Suppress("PropertyName")
     protected abstract val title_ui: String

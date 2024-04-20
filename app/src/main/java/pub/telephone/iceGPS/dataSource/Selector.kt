@@ -4,11 +4,11 @@ import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KVisibility
 import kotlin.reflect.full.declaredMemberProperties
 
-internal interface Config<T> {
+interface Config<T> {
     fun copy(): T
 }
 
-internal open class Selector<K, V, R>(
+open class Selector<K, V, R>(
     private val fallback: K,
     private val m: Map<K, Any?>,
     private val t: (V) -> R
@@ -25,7 +25,7 @@ internal open class Selector<K, V, R>(
     }
 
     companion object {
-        fun <R> transform(c: Config<*>, k: Any?): R {
+        internal fun <R> transform(c: Config<*>, k: Any?): R {
             @Suppress("UNCHECKED_CAST")
             return when (c) {
                 is Selector<*, *, *> ->

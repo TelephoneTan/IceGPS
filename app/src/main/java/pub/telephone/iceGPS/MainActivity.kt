@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import pub.telephone.iceGPS.browser.BrowserState
-import pub.telephone.iceGPS.dataSource.Colors
+import pub.telephone.iceGPS.config.colorManager
+import pub.telephone.iceGPS.dataSource.ColorConfig
 import pub.telephone.iceGPS.dataSource.EmbeddedDataNode
 import pub.telephone.iceGPS.dataSource.EmbeddedDataNodeAPI
 import pub.telephone.iceGPS.dataSource.TagKey
@@ -15,7 +16,7 @@ import java.util.concurrent.atomic.AtomicReference
 
 private typealias MainActivityINFO = Any?
 
-class MainActivity : MyActivity<MainActivity.ViewHolder, MainActivity.DataNode>() {
+class MainActivity : Activity<MainActivity.ViewHolder, MainActivity.DataNode>() {
     private val currentBrowserR = AtomicReference<BrowserState>()
     private val currentBrowser: BrowserState? get() = currentBrowserR.get()
     private val browserCreator =
@@ -51,8 +52,10 @@ class MainActivity : MyActivity<MainActivity.ViewHolder, MainActivity.DataNode>(
             watchColor()
         }
 
-        override fun color_ui(holder: MainActivity.ViewHolder, colors: Colors<Int>) {
-            holder.view.input.setTextColor(colors.main.text)
+        override fun color_ui(holder: MainActivity.ViewHolder, colors: ColorConfig<*>) {
+            colors.of(colorManager)?.let { c ->
+                holder.view.input.setTextColor(c.main.text)
+            }
         }
     }
 
